@@ -7,18 +7,14 @@ import "./table.css";
 export const BasicTable = () => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
-  //   const tableInstance = useTable({
-  //     // columns: columns,
-  //     // data: data,
-  //     //shortform of the above with ES6 short hand syntax
-  //     columns,
-  //     data,
-  //   });
-
-  //we are going to destructure couple of properties and methods from tableInstance
-  //below are functions and arrays used for easy table creation given by react table library
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    footerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data }); //footerGroups added
   return (
     <table>
       <thead {...getTableProps()}>
@@ -26,7 +22,6 @@ export const BasicTable = () => {
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
               <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-              //"Header" corresponds to the object property Header in columns array in columns.js
             ))}
           </tr>
         ))}
@@ -43,6 +38,16 @@ export const BasicTable = () => {
           );
         })}
       </tbody>
+      {/* table footer added */}
+      <tfoot>
+        {footerGroups.map((footerGroup) => (
+          <tr {...footerGroup.getFooterGroupProps()}>
+            {footerGroup.headers.map((column) => (
+              <td {...column.getFooterProps}>{column.render("Footer")}</td>
+            ))}
+          </tr>
+        ))}
+      </tfoot>
     </table>
   );
 };
